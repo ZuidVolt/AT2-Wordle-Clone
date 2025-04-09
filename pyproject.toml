@@ -1,0 +1,27 @@
+[project]
+name = "at2-wordle-clone"
+version = "0.1.0"
+description = "CLI Wordle Clone"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.ruff]
+line-length = 79
+
+[tool.pyright]
+typeCheckingMode = "off"
+pythonVersion = "3.10"
+
+[tool.ruff.lint]
+preview = true
+select = [ "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+docstring-code-line-length = 79
+indent-style = "space"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
