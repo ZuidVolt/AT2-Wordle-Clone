@@ -51,18 +51,15 @@ def tests():
     test_case_1 = score_guess("world", "world")
     test_case_2 = score_guess("world", "hello")
     test_case_3 = score_guess("world", "hello")
+    test_case_4 = score_guess("spell", "hello")
+    # print(test_case_1)  # returns [2, 2, 2, 2, 2] # debug
     assert test_case_1 == [2, 2, 2, 2, 2], "should be [2, 2, 2, 2, 2]"
-    print(test_case_1)  # returns [2, 2, 2, 2, 2]
+    # print(test_case_2)  # returns [0, 1, 0, 2, 0] # debug
     assert test_case_2 == [0, 1, 0, 2, 0], "should be [0, 1, 0, 2, 0]"
-    print(test_case_2)  # returns [0, 1, 0, 2, 0]
+    # print("the target word is", len(test_case_3), "long") # debug
     assert len(test_case_3) == 5, "the target world should be five letters"
-    print(  # returns target is five letters 5 long
-        "target is five letters"
-        if len(test_case_3) == 5
-        else "the target word is",
-        len(test_case_3),
-        "long",
-    )
+    print(test_case_4)  # debug
+    assert test_case_4[3] == 2 and test_case_4[2] == 1, ""
 
 
 def main():
