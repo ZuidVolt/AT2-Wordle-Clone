@@ -5,11 +5,12 @@
 def score_guess(user_guess, target_word):
     score_list: list[int] = [0] * len(target_word)
     if user_guess == target_word:
-        for i in range(len(score_list)):
-            if user_guess[i] == target_word[i]:
-                score_list[i] = 2
-            elif user_guess[i] in target_word:
-                score_list[i] = 1
+        score_list = [2] * len(target_word)
+    for i in range(len(score_list)):
+        if user_guess[i] == target_word[i]:
+            score_list[i] = 2
+        elif user_guess[i] in target_word:
+            score_list[i] = 1
     return score_list
 
 
