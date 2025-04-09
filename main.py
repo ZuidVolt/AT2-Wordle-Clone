@@ -23,7 +23,6 @@ def score_guess(user_guess, target_word):
     return score_list
 
 
-# Cooper, 20146487, 9/4/25
 def read_file(file_path):
     with open(file_path, encoding="utf-8") as file_handler:
         data = file_handler.read()
@@ -47,19 +46,29 @@ def get_target_words():
     return word_list
 
 
+# Cooper, 20146487, 9/4/25s
 def tests():
     test_case_1 = score_guess("world", "world")
     test_case_2 = score_guess("world", "hello")
+    test_case_3 = score_guess("world", "hello")
     assert test_case_1 == [2, 2, 2, 2, 2], "should be [2, 2, 2, 2, 2]"
     print(test_case_1)  # returns [2, 2, 2, 2, 2]
     assert test_case_2 == [0, 1, 0, 2, 0], "should be [0, 1, 0, 2, 0]"
     print(test_case_2)  # returns [0, 1, 0, 2, 0]
+    assert len(test_case_3) == 5, "the target world should be five letters"
+    print(  # returns target is five letters 5 long
+        "target is five letters"
+        if len(test_case_3) == 5
+        else "the target word is",
+        len(test_case_3),
+        "long",
+    )
 
 
 def main():
-    # tests()
+    tests()
     # get_valid_words()
-    get_target_words()
+    # get_target_words()
 
 
 if __name__ == "__main__":
