@@ -19,8 +19,8 @@ def tests():
     test_case_2 = score_guess("world", "hello")
     assert test_case_1 == [2, 2, 2, 2, 2], "should be [2, 2, 2, 2, 2]"
     print(test_case_1)  # returns [2, 2, 2, 2, 2]
-    assert test_case_2 == [0, 0, 0, 0, 0], "should be [0, 0, 0, 0, 0]"
-    print(test_case_2)  # returns [0, 0, 0, 0, 0]
+    assert test_case_2 == [0, 1, 0, 2, 0], "should be [0, 1, 0, 2, 0]"
+    print(test_case_2)  # returns [0, 1, 0, 2, 0]
 
 
 def main():
