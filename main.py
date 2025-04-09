@@ -3,6 +3,15 @@
 
 # Cooper, 20146487, 9/4/25
 def score_guess(user_guess, target_word):
+    """Scores a Wordle guess.
+    Args:
+        user_guess (str): The user's guess.
+        target_word (str): The target word
+    Returns:
+        score_list (list[int]) where 2 means a correct letter and
+        1 means correct letter in the wrong place, with 0 being an
+        Incorrect letter
+    """
     score_list: list[int] = [0] * len(target_word)
     if user_guess == target_word:
         score_list = [2] * len(target_word)
