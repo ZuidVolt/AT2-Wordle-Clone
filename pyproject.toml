@@ -14,7 +14,6 @@ typeCheckingMode = "off"
 pythonVersion = "3.10"
 
 [tool.ruff.lint]
-preview = true
 select = [ "RUF"]
 
 [tool.ruff.format]
