@@ -26,7 +26,7 @@ def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
 def read_file(file_path: str) -> list[str]:
     with open(file_path, encoding="utf-8") as file_handler:
         data = file_handler.read()
-        word_list = []
+        word_list: list[str] = []
         for line in data.splitlines():
             word_list.append(line.strip())
         return word_list
