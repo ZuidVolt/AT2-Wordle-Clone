@@ -1,7 +1,9 @@
 """Program entry point"""
 
+type FiveIntTuple = tuple[int, int, int, int, int]
 
-def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
+
+def score_guess(user_guess: str, target_word: str) -> FiveIntTuple:
     """Scores a Wordle guess.
     Args:
         user_guess (str): The user's guess.
