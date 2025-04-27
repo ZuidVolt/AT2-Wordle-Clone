@@ -65,6 +65,26 @@ def get_target_words():
     return tuple(word_list)
 
 
+def display_guess_result(scored_guess):
+    display_list = []
+    for i in scored_guess:
+        if i == 0:
+            display_list.append("_")
+        elif i == 1:
+            display_list.append("0")
+        elif i == 2:
+            display_list.append("X")
+        else:
+            raise ValueError("A scored_guess Should only have elements")
+    print(
+        display_list[0],
+        display_list[1],
+        display_list[2],
+        display_list[3],
+        display_list[4],
+    )
+
+
 def game_setup():
     pass
 
@@ -88,7 +108,9 @@ def run_tests_quickly():
 
 
 def main():
-    run_tests_quickly()
+    # run_tests_quickly()
+    x = (1, 2, 0, 0, 1)
+    display_guess_result(x)
 
 
 if __name__ == "__main__":
