@@ -35,14 +35,14 @@ def read_file(file_path: str) -> list[str]:
 def get_valid_words() -> tuple[str, ...]:
     file_path = "./data/all_words.txt"
     word_list = read_file(file_path)
-    print("valid_words:", word_list)  # debug
+    # print("valid_words:", word_list)  # debug
     return tuple(word_list)
 
 
 def get_target_words() -> tuple[str, ...]:
     file_path = "./data/target_words.txt"
     word_list = read_file(file_path)
-    print("target words:", word_list)  # debug
+    # print("target words:", word_list)  # debug
     return tuple(word_list)
 
 
@@ -60,6 +60,12 @@ def user_input():
 
 def game_loop():
     pass
+
+
+def is_five_elements_long(var):
+    if len(var) == 5:
+        return True
+    return False
 
 
 def main() -> None:
