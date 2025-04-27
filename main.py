@@ -14,7 +14,7 @@ def score_guess(user_guess: str, target_word: str) -> FiveIntTuple:
         Incorrect letter
     """
     score_list: list[int] = [0] * len(target_word)
-    if user_guess == target_word:
+    if user_guess == target_word:  # early return of correct guess
         score_list = [2] * len(target_word)
         return tuple(score_list)
     for i in range(len(score_list)):
