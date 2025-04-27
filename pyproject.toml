@@ -10,11 +10,11 @@ dependencies = []
 line-length = 79
 
 [tool.pyright]
-typeCheckingMode = "off"
+typeCheckingMode = "basic"
 pythonVersion = "3.12"
 
 [tool.ruff.lint]
-select = [ "RUF"]
+select = ["RUF"]
 
 [tool.ruff.format]
 quote-style = "double"
