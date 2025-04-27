@@ -1,9 +1,7 @@
 """Program entry point"""
 
-type FiveIntTuple = tuple[int, int, int, int, int]
 
-
-def score_guess(user_guess: str, target_word: str) -> FiveIntTuple:
+def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
     """Scores a Wordle guess.
     Args:
         user_guess (str): The user's guess.
@@ -48,25 +46,10 @@ def get_target_words() -> tuple[str, ...]:
     return tuple(word_list)
 
 
-def tests() -> None:
-    test_case_1 = score_guess("world", "world")
-    test_case_2 = score_guess("world", "hello")
-    test_case_3 = score_guess("world", "hello")
-    test_case_4 = score_guess("spell", "hello")
-    # print(test_case_1)
-    assert test_case_1 == (2, 2, 2, 2, 2), "should be [2,2,2,2,2]"
-    # print(test_case_2)
-    assert test_case_2 == (0, 1, 0, 2, 0), "should be [0,1,0,2,0]"
-    # print("the target word is", len(test_case_3), "long")
-    assert len(test_case_3) == 5, "the target world should be five letters"
-    # print(test_case_4)  # debug
-    assert test_case_4[3] == 2 and test_case_4[2] == 1, ""
-
-
 def main() -> None:
-    tests()
-    # get_valid_words()
-    # get_target_words()
+    from test.test_wordle import test_all
+
+    test_all()
 
 
 if __name__ == "__main__":
