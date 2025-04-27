@@ -6,7 +6,7 @@ def test_score_guess() -> None:
     test_case_3_mock_data = ("world", "hello")
     test_case_4_mock_data = ("spell", "hello")
 
-    print("TEST score_guess() CASES:")
+    print("--- TEST score_guess() CASES ---")
 
     print("test case 1, valid guess logic:")
     test_case_1 = score_guess(
@@ -50,7 +50,7 @@ def test_read_file_to_word_list():
     test_case_2_mock_data = "./todo.md"
     test_case_3_mock_data = "./does-not-exist"
 
-    print("TEST read_file_to_word_list CASES:")
+    print("--- TEST read_file_to_word_list CASES ---")
 
     print("test case 1, logic for reading a valid wordle file")
     test_case_1 = read_file_to_word_list(test_case_1_mock_data)
