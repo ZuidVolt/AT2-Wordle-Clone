@@ -46,6 +46,22 @@ def get_target_words() -> tuple[str, ...]:
     return tuple(word_list)
 
 
+def game_setup():
+    pass
+
+
+def game_display():
+    pass
+
+
+def user_input():
+    pass
+
+
+def game_loop():
+    pass
+
+
 def main() -> None:
     from test.test_wordle import test_all
 
