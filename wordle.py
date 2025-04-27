@@ -5,7 +5,7 @@ VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
 TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
 
 
-def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
+def score_guess(user_guess, target_word):
     """Scores a Wordle guess.
     Args:
         user_guess (str): The user's guess.
@@ -15,7 +15,7 @@ def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
         1 means correct letter in the wrong place, with 0 being an
         Incorrect letter
     """
-    score_list: list[int] = [0] * len(target_word)
+    score_list = [0] * len(target_word)
     if user_guess == target_word:  # early return of correct guess
         score_list = [2] * len(target_word)
         return tuple(score_list)
@@ -27,7 +27,7 @@ def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
     return tuple(score_list)
 
 
-def read_file(file_path: str) -> list[str]:
+def read_file(file_path):
     with open(file_path, encoding="utf-8") as file_handler:
         data = file_handler.read()
         word_list: list[str] = []
@@ -36,14 +36,14 @@ def read_file(file_path: str) -> list[str]:
         return word_list
 
 
-def get_valid_words() -> tuple[str, ...]:
+def get_valid_words():
     file_path = VALID_WORDS_FILE_PATH
     word_list = read_file(file_path)
     # print("valid_words:", word_list)  # debug
     return tuple(word_list)
 
 
-def get_target_words() -> tuple[str, ...]:
+def get_target_words():
     file_path = TARGET_WORDS__FILE_PATH
     word_list = read_file(file_path)
     # print("target words:", word_list)  # debug
@@ -72,10 +72,14 @@ def is_five_elements_long(var):
     return False
 
 
-def main() -> None:
+def run_tests_quickly():
     from test.test_wordle import test_all
 
     test_all()
+
+
+def main():
+    run_tests_quickly()
 
 
 if __name__ == "__main__":
