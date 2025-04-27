@@ -1,5 +1,9 @@
 """Program entry point"""
 
+# --- constants ---
+VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
+TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
+
 
 def score_guess(user_guess: str, target_word: str) -> tuple[int, ...]:
     """Scores a Wordle guess.
@@ -33,14 +37,14 @@ def read_file(file_path: str) -> list[str]:
 
 
 def get_valid_words() -> tuple[str, ...]:
-    file_path = "./data/all_words.txt"
+    file_path = VALID_WORDS_FILE_PATH
     word_list = read_file(file_path)
     # print("valid_words:", word_list)  # debug
     return tuple(word_list)
 
 
 def get_target_words() -> tuple[str, ...]:
-    file_path = "./data/target_words.txt"
+    file_path = TARGET_WORDS__FILE_PATH
     word_list = read_file(file_path)
     # print("target words:", word_list)  # debug
     return tuple(word_list)
