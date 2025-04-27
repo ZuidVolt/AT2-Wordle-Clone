@@ -3,6 +3,7 @@
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
 TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
+NUMBER_OF_USE_GUESSES = 5
 
 
 def score_guess(user_guess, target_word):
@@ -27,25 +28,39 @@ def score_guess(user_guess, target_word):
     return tuple(score_list)
 
 
-def read_file(file_path):
-    with open(file_path, encoding="utf-8") as file_handler:
-        data = file_handler.read()
-        word_list: list[str] = []
-        for line in data.splitlines():
-            word_list.append(line.strip())
-        return word_list
+def is_five_elements_long(var):
+    if len(var) == 5:
+        return True
+    return False
+
+
+def read_file_to_word_list(file_path):
+    try:
+        with open(file_path, encoding="utf-8") as file_handler:
+            data = file_handler.read()
+            word_list: list[str] = []
+            for line in data.splitlines():
+                line = line.strip()
+                if is_five_elements_long(line):
+                    word_list.append(line)
+                else:
+                    # print("line:", line, "was not 5 letters long")  # debug
+                    pass
+            return word_list
+    except OSError as e:
+        raise OSError from e
 
 
 def get_valid_words():
     file_path = VALID_WORDS_FILE_PATH
-    word_list = read_file(file_path)
+    word_list = read_file_to_word_list(file_path)
     # print("valid_words:", word_list)  # debug
     return tuple(word_list)
 
 
 def get_target_words():
     file_path = TARGET_WORDS__FILE_PATH
-    word_list = read_file(file_path)
+    word_list = read_file_to_word_list(file_path)
     # print("target words:", word_list)  # debug
     return tuple(word_list)
 
@@ -64,12 +79,6 @@ def user_input():
 
 def game_loop():
     pass
-
-
-def is_five_elements_long(var):
-    if len(var) == 5:
-        return True
-    return False
 
 
 def run_tests_quickly():
