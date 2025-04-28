@@ -3,7 +3,7 @@
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
 TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
-NUMBER_OF_USE_GUESSES = 5
+NUMBER_OF_USER_GUESSES = 5
 
 
 def score_guess(user_guess, target_word):
@@ -44,7 +44,7 @@ def read_file_to_word_list(file_path):
                 if is_five_elements_long(line):
                     word_list.append(line)
                 else:
-                    # print("line:", line, "was not 5 letters long")  # debug
+                    # print("line: '", line, "' was not 5 letters long")  # debug
                     pass
             return word_list
     except OSError as e:
@@ -92,8 +92,16 @@ def display_guess_result(scored_guess):
     print_display_list(display_list)
 
 
-def game_setup():
-    pass
+def game_setup(
+    valid_words_list=None, target_words_list=None, number_of_user_guesses=None
+) -> tuple:
+    if valid_words_list == None:
+        valid_words_list = get_target_words()
+    if target_words_list == None:
+        target_words_list = get_target_words()
+    if number_of_user_guesses == None:
+        number_of_user_guesses = NUMBER_OF_USER_GUESSES
+    return valid_words_list, target_words_list, number_of_user_guesses
 
 
 def game_display():
@@ -104,8 +112,12 @@ def user_input():
     pass
 
 
-def game_loop():
-    pass
+def game_loop(game_setup_param=None):
+    if game_setup_param == None:
+        setup_data = game_setup()
+    else:
+        setup_data = game_setup_param
+    _valid_words_list, _target_words_list, _number_of_user_guesses = setup_data
 
 
 def run_tests_quickly():
@@ -115,9 +127,9 @@ def run_tests_quickly():
 
 
 def main():
-    # run_tests_quickly()
-    x = (1, 2, 0, 0, 1)
-    display_guess_result(x)
+    run_tests_quickly()
+    # x = (1, 2, 0, 0, 1)
+    # display_guess_result(x)
 
 
 if __name__ == "__main__":
