@@ -18,6 +18,7 @@ def score_guess(user_guess, target_word):
         1 means correct letter in the wrong place, with 0 being an
         Incorrect letter
     """
+    # todo: add two pass system to properly
     score_list = [0] * len(target_word)
     if user_guess == target_word:  # early return of correct guess
         score_list = [2] * len(target_word)
@@ -113,24 +114,24 @@ def game_setup(
     target_words_list=None,
     number_of_user_guesses=None,
 ):
-    if valid_words_list == None:
+    if valid_words_list is None:
         valid_words_list = get_valid_words()
-    if target_words_list == None:
+    if target_words_list is None:
         target_words_list = get_target_words()
-    if number_of_user_guesses == None:
+    if number_of_user_guesses is None:
         number_of_user_guesses = NUMBER_OF_USER_GUESSES
     return valid_words_list, target_words_list, number_of_user_guesses
 
 
-def get_random_word_target_word(valid_words_list):
-    return random.choice(valid_words_list)
+def get_random_word_target_word(target_words_list):
+    return random.choice(target_words_list)
 
 
 def game_loop(
     game_setup_param=None,
-    mock_user_vaild_guesses: list[str] | None = None,
+    mock_user_valid_guesses: list[str] | None = None,
 ):
-    if game_setup_param == None:
+    if game_setup_param is None:
         setup_data = game_setup()
     else:
         setup_data = game_setup_param
@@ -144,17 +145,18 @@ def game_loop(
 
     print("Welcome to Wordle!")
     print(f"You have {number_of_user_guesses} guesses.")
+
     try:
         for turn_number in range(number_of_user_guesses):
             display_past_guesses(past_valid_guesses_list)
             while True:
-                if not mock_user_vaild_guesses == None:
-                    user_guess = mock_user_vaild_guesses[turn_number - 1]
+                if not mock_user_valid_guesses is None:
+                    user_guess = mock_user_valid_guesses[turn_number - 1]
                     break
                 else:
                     print("-" * 20)
                     user_guess, is_valid = user_input(valid_words_list)
-                    # todo add Logic to check if word has already been guessed
+                    # todo: add Logic to check if word has already been guessed
                     if is_valid:
                         break
                 print("Invalid guess. Please try again.")
