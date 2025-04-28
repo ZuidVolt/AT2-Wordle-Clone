@@ -28,8 +28,8 @@ def score_guess(user_guess, target_word):
     return tuple(score_list)
 
 
-def is_five_elements_long(var):
-    if len(var) == 5:
+def is_five_elements_long(collection):
+    if len(collection) == 5:
         return True
     return False
 
@@ -65,17 +65,7 @@ def get_target_words():
     return tuple(word_list)
 
 
-def display_guess_result(scored_guess):
-    display_list = []
-    for i in scored_guess:
-        if i == 0:
-            display_list.append("_")
-        elif i == 1:
-            display_list.append("0")
-        elif i == 2:
-            display_list.append("X")
-        else:
-            raise ValueError("A scored_guess Should only have elements")
+def print_display_list(display_list):
     print(
         display_list[0],
         display_list[1],
@@ -83,6 +73,23 @@ def display_guess_result(scored_guess):
         display_list[3],
         display_list[4],
     )
+
+
+def display_guess_result(scored_guess):
+    display_list = []
+    for i in scored_guess:
+        if i == 0:
+            display_list.append("_")  # wrong guess
+        elif i == 1:
+            display_list.append("0")  # wrong position
+        elif i == 2:
+            display_list.append("X")  # right position
+        else:
+            raise ValueError(
+                "A scored_guess Should only have elements values from 0-2 got:",
+                i,
+            )
+    print_display_list(display_list)
 
 
 def game_setup():
