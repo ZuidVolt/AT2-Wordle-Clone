@@ -92,9 +92,19 @@ def display_guess_result(scored_guess):
     print_display_list(display_list)
 
 
+def game_display():
+    pass
+
+
+def user_input():
+    pass
+
+
 def game_setup(
-    valid_words_list=None, target_words_list=None, number_of_user_guesses=None
-) -> tuple:
+    valid_words_list=None,
+    target_words_list=None,
+    number_of_user_guesses=None,
+):
     if valid_words_list == None:
         valid_words_list = get_target_words()
     if target_words_list == None:
@@ -102,14 +112,6 @@ def game_setup(
     if number_of_user_guesses == None:
         number_of_user_guesses = NUMBER_OF_USER_GUESSES
     return valid_words_list, target_words_list, number_of_user_guesses
-
-
-def game_display():
-    pass
-
-
-def user_input():
-    pass
 
 
 def game_loop(game_setup_param=None):
