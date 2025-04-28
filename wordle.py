@@ -1,5 +1,7 @@
 """Program entry point"""
 
+import random
+
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
 TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
@@ -98,20 +100,11 @@ def display_past_guesses(past_valid_guesses_list):
         print_display_list(past_display_lists)
 
 
-def prompt_and_return_guess():
+def user_input(valid_words_list):
     user_guess = input("Enter your guess: ").lower()
-    return user_guess
-
-
-def is_valid_user_guess(user_guess, valid_words_list):
-    return (
+    is_valid = (
         user_guess in valid_words_list
     )  # don't need to worry about len case as all valid words are the same length
-
-
-def user_input(valid_words_list):
-    user_guess = prompt_and_return_guess()
-    is_valid = is_valid_user_guess(user_guess, valid_words_list)
     return user_guess, is_valid
 
 
@@ -127,9 +120,6 @@ def game_setup(
     if number_of_user_guesses == None:
         number_of_user_guesses = NUMBER_OF_USER_GUESSES
     return valid_words_list, target_words_list, number_of_user_guesses
-
-
-import random
 
 
 def get_random_word_target_word(valid_words_list):
