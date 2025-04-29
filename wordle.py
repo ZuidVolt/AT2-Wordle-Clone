@@ -160,6 +160,7 @@ def game_loop(
                     if is_valid:
                         break
                 print("Invalid guess. Please try again.")
+                display_past_guesses(past_valid_guesses_list)
             guess_result = score_guess(user_guess, target_word)
             if guess_result == (2, 2, 2, 2, 2):
                 user_won_the_game = True
