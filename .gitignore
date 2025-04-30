@@ -18,3 +18,4 @@ env/
 .DS_Store
 *.log
 test.py
+two_pass_score_logic.py

@@ -167,7 +167,9 @@ def game_loop(
                 break
             else:
                 display_guess = get_display_list(guess_result)
-                past_valid_guesses_list.append((user_guess, display_guess))
+                past_valid_guesses_list.append(
+                    ((user_guess).upper(), display_guess)
+                )
 
         if user_won_the_game:
             print("Congratulations! You won!")
