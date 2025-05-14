@@ -94,7 +94,7 @@ def print_display_list(display_list):
     )
 
 
-def get_display_list(scored_guess) -> list[str]:
+def get_display_list(scored_guess):
     display_list = []
     for i in scored_guess:
         if i == 0:
@@ -157,14 +157,16 @@ def game_loop(
     user_won_the_game = False
 
     target_word = get_random_word_target_word(target_words_list)
-    print("Debug: Target word:", target_word)  # debug
 
-    print("Welcome to Wordle!")
-    print(f"You have {number_of_user_guesses} guesses.")
+    if mock_user_valid_guesses is None:
+        print("Debug: Target word:", target_word)  # debug
+        print("Welcome to Wordle!")
+        print(f"You have {number_of_user_guesses} guesses.")
 
     try:
         for turn_number in range(number_of_user_guesses):
-            display_past_guesses(past_valid_guesses_list)
+            if mock_user_valid_guesses is None:
+                display_past_guesses(past_valid_guesses_list)
             while True:
                 if not mock_user_valid_guesses is None:
                     user_guess = mock_user_valid_guesses[turn_number - 1]
@@ -172,11 +174,11 @@ def game_loop(
                 else:
                     print("-" * 20)
                     user_guess, is_valid = user_input(valid_words_list)
-                    # todo: add Logic to check if word has already been guessed
                     if is_valid:
                         break
                 print("Invalid guess. Please try again.")
-                display_past_guesses(past_valid_guesses_list)
+                if mock_user_valid_guesses is None:
+                    display_past_guesses(past_valid_guesses_list)
             guess_result = score_guess(user_guess, target_word)
             if guess_result == (2, 2, 2, 2, 2):
                 user_won_the_game = True
@@ -186,11 +188,13 @@ def game_loop(
                 past_valid_guesses_list.append(
                     ((user_guess).upper(), display_guess)
                 )
-
-        if user_won_the_game:
-            print("Congratulations! You won!")
+        if mock_user_valid_guesses is None:
+            if user_won_the_game:
+                print("Congratulations! You won!")
+            else:
+                print("Sorry, you lost.")
         else:
-            print("Sorry, you lost.")
+            return guess_result
     except KeyboardInterrupt:
         print()
         print("Game interrupted by user.")
@@ -203,7 +207,14 @@ def run_tests_quickly():
 
 
 def main():
-    game_loop()
+    # game_loop()
+
+    w = ["apple"]
+    x = game_loop(
+        game_setup(target_words_list=["paper"], number_of_user_guesses=1), w
+    )
+    print(x)
+
     # run_tests_quickly()
 
     # # x = (1, 2, 0, 0, 1)
