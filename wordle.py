@@ -117,6 +117,13 @@ def display_past_guesses(past_valid_guesses_list):
         print_display_list(past_display_lists)
 
 
+def display_guess_after_win(past_valid_guesses_list, guesses_count):
+    for past_valid_words, past_display_lists in past_valid_guesses_list:
+        print_display_list(past_valid_words)
+        print_display_list(past_display_lists)
+    print("you found the word in", guesses_count, "guesses")
+
+
 def user_input(valid_words_list):
     user_guess = input("Enter your guess: ").lower()
     is_valid = (
@@ -155,6 +162,7 @@ def game_loop(
 
     past_valid_guesses_list: list[tuple[str, list[str]]] = []
     user_won_the_game = False
+    guesses_count = 0
 
     target_word = get_random_word_target_word(target_words_list)
 
@@ -175,12 +183,17 @@ def game_loop(
                     print("-" * 20)
                     user_guess, is_valid = user_input(valid_words_list)
                     if is_valid:
+                        guesses_count += 1
                         break
                 print("Invalid guess. Please try again.")
                 if mock_user_valid_guesses is None:
                     display_past_guesses(past_valid_guesses_list)
             guess_result = score_guess(user_guess, target_word)
             if guess_result == (2, 2, 2, 2, 2):
+                display_guess = get_display_list(guess_result)
+                past_valid_guesses_list.append(
+                    ((user_guess).upper(), display_guess)
+                )
                 user_won_the_game = True
                 break
             else:
@@ -191,6 +204,7 @@ def game_loop(
         if mock_user_valid_guesses is None:
             if user_won_the_game:
                 print("Congratulations! You won!")
+                display_guess_after_win(past_valid_guesses_list, guesses_count)
             else:
                 print("Sorry, you lost.")
         else:
@@ -207,13 +221,13 @@ def run_tests_quickly():
 
 
 def main():
-    # game_loop()
+    game_loop()
 
-    w = ["apple"]
-    x = game_loop(
-        game_setup(target_words_list=["paper"], number_of_user_guesses=1), w
-    )
-    print(x)
+    # w = ["apple"]
+    # x = game_loop(
+    #     game_setup(target_words_list=["paper"], number_of_user_guesses=1), w
+    # )
+    # print(x)
 
     # run_tests_quickly()
 

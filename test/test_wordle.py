@@ -1,4 +1,3 @@
-# ---- Unit Tests ----
 def test_score_guess() -> None:
     from wordle import score_guess
 
@@ -84,10 +83,23 @@ def test_read_file_to_word_list():
 # ---- Integration Tests ----
 
 
+def test_game_loop():
+    from wordle import game_loop, game_setup
+
+    print("test case 1,")
+    w = ["apple"]
+    x = game_loop(
+        game_setup(target_words_list=["paper"], number_of_user_guesses=1), w
+    )
+    print(x)
+
+
 def test_all() -> None:
     test_score_guess()
     test_read_file_to_word_list()
+    # test_game_loop()
 
 
 if __name__ == "__main__":
-    test_all()
+    # test_all()
+    test_game_loop()
