@@ -1,3 +1,4 @@
+# ---- Unit Tests ----
 def test_score_guess() -> None:
     from wordle import score_guess
 
@@ -78,6 +79,9 @@ def test_read_file_to_word_list():
             "the expected failed test passed without an error: Something has gone very wrong"
         )
         print("Failed")
+
+
+# ---- Integration Tests ----
 
 
 def test_all() -> None:

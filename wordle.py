@@ -18,16 +18,32 @@ def score_guess(user_guess, target_word):
         1 means correct letter in the wrong place, with 0 being an
         Incorrect letter
     """
-    # todo: add two pass system to properly
-    score_list = [0] * len(target_word)
+    score_list = [0] * 5
+    target_word_letter_freq = {}
+    for letter in target_word:
+        target_word_letter_freq[letter] = (
+            target_word_letter_freq.get(letter, 0) + 1
+        )
+    # print(target_word_letter_freq)  # debug
+
     if user_guess == target_word:  # early return of correct guess
-        score_list = [2] * len(target_word)
+        score_list = [2] * 5
         return tuple(score_list)
-    for i in range(len(score_list)):
+
+    # green tile pass (look for 2 vals)
+    for i in range(5):
         if user_guess[i] == target_word[i]:
             score_list[i] = 2
-        elif user_guess[i] in target_word:
-            score_list[i] = 1
+            target_word_letter_freq[user_guess[i]] -= 1
+
+    # yellow tile pass (look for possible 1 vals)
+    for i in range(5):
+        if score_list[i] == 0 and user_guess[i] in target_word:
+            if target_word_letter_freq[user_guess[i]] > 0:
+                score_list[i] = 1
+                target_word_letter_freq[user_guess[i]] -= 1
+
+    # print(target_word_letter_freq)  # debug
     return tuple(score_list)
 
 
