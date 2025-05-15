@@ -177,7 +177,8 @@ def game_loop(
                 display_past_guesses(past_valid_guesses_list)
             while True:
                 if not mock_user_valid_guesses is None:
-                    user_guess = mock_user_valid_guesses[turn_number - 1]
+                    user_guess = mock_user_valid_guesses[turn_number]
+                    guesses_count += 1
                     break
                 else:
                     print("-" * 20)
@@ -188,7 +189,9 @@ def game_loop(
                 print("Invalid guess. Please try again.")
                 if mock_user_valid_guesses is None:
                     display_past_guesses(past_valid_guesses_list)
+
             guess_result = score_guess(user_guess, target_word)
+
             if guess_result == (2, 2, 2, 2, 2):
                 display_guess = get_display_list(guess_result)
                 past_valid_guesses_list.append(
@@ -206,7 +209,7 @@ def game_loop(
                 print("Congratulations! You won!")
                 display_guess_after_win(past_valid_guesses_list, guesses_count)
             else:
-                print("Sorry, you lost.")
+                print("Sorry, you lost. The word was:", target_word.upper())
         else:
             return guess_result
     except KeyboardInterrupt:
@@ -244,3 +247,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # run_tests_quickly()
