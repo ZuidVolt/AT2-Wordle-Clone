@@ -5,7 +5,7 @@ import random
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
 TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
-NUMBER_OF_USER_GUESSES = 5
+NUMBER_OF_USER_GUESSES = 6
 
 
 def score_guess(user_guess, target_word):
@@ -57,7 +57,7 @@ def read_file_to_word_list(file_path):
     try:
         with open(file_path, encoding="utf-8") as file_handler:
             data = file_handler.read()
-            word_list: list[str] = []
+            word_list = []
             for line in data.splitlines():
                 line = line.strip()
                 if is_five_elements_long(line):
@@ -68,6 +68,11 @@ def read_file_to_word_list(file_path):
             return word_list
     except OSError as e:
         raise OSError from e
+
+
+def write_log_file(file_path, user_json_object):
+    with open(file_path, "a", encoding="utf-8") as file_handler:
+        file_handler.writelines(user_json_object)
 
 
 def get_valid_words():
@@ -126,10 +131,22 @@ def display_guess_after_win(past_valid_guesses_list, guesses_count):
 
 def user_input(valid_words_list):
     user_guess = input("Enter your guess: ").lower()
+    is_help = user_guess == "help"
     is_valid = (
         user_guess in valid_words_list
     )  # don't need to worry about len case as all valid words are the same length
-    return user_guess, is_valid
+    return user_guess, is_valid, is_help
+
+
+def get_player_name():
+    user_guess = input("Enter your Name Please: ").strip()
+    if user_guess == "":
+        user_guess = "Mystery Player"
+    return user_guess
+
+
+def display_help_msg():
+    print("help msg")
 
 
 def game_setup(
@@ -169,7 +186,10 @@ def game_loop(
     if mock_user_valid_guesses is None:
         print("Debug: Target word:", target_word)  # debug
         print("Welcome to Wordle!")
+
+        user_name = get_player_name()
         print(f"You have {number_of_user_guesses} guesses.")
+        display_help_msg()
 
     try:
         for turn_number in range(number_of_user_guesses):
@@ -182,7 +202,12 @@ def game_loop(
                     break
                 else:
                     print("-" * 20)
-                    user_guess, is_valid = user_input(valid_words_list)
+                    user_guess, is_valid, is_help = user_input(
+                        valid_words_list
+                    )
+                    if is_help:
+                        display_help_msg()
+                        continue
                     if is_valid:
                         guesses_count += 1
                         break
@@ -205,11 +230,14 @@ def game_loop(
                     ((user_guess).upper(), display_guess)
                 )
         if mock_user_valid_guesses is None:
+            ending_msg = f"Thank you for playing {user_name}"
             if user_won_the_game:
                 print("Congratulations! You won!")
+                print(ending_msg)
                 display_guess_after_win(past_valid_guesses_list, guesses_count)
             else:
                 print("Sorry, you lost. The word was:", target_word.upper())
+                print(ending_msg)
         else:
             return guess_result
     except KeyboardInterrupt:
