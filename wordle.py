@@ -70,11 +70,6 @@ def read_file_to_word_list(file_path):
         raise OSError from e
 
 
-def write_log_file(file_path, user_json_object):
-    with open(file_path, "a", encoding="utf-8") as file_handler:
-        file_handler.writelines(user_json_object)
-
-
 def get_valid_words():
     file_path = VALID_WORDS_FILE_PATH
     word_list = read_file_to_word_list(file_path)
