@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 from pathlib import Path
 from typing import TypedDict
 
@@ -11,32 +12,59 @@ class LogAppendError(Exception):
 
 type FiveIntTuple = tuple[int, int, int, int, int]
 type AuditLogList = list[AuditLog]
+type DateTimeStr = str
 
 
 class AuditLog(TypedDict):
-    timestamp: dt.datetime
+    timestamp: DateTimeStr
     name: str
     target_word: str
     guess_word: str  # valid guess only
     score: FiveIntTuple
 
 
-def write_log_file(
-    user_json_object, log_file_path: Path = LOG_FILE_PATH
+def create_audit_log(
+    name: str, target_word: str, guess_word: str, score: FiveIntTuple
+) -> AuditLog:
+    return {
+        "timestamp": format_datetime_as_string(dt.datetime.now()),
+        "name": name,
+        "target_word": target_word,
+        "guess_word": guess_word,
+        "score": score,
+    }
+
+
+def format_datetime_as_string(dt_obj: dt.datetime) -> DateTimeStr:
+    return dt_obj.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def convert_audit_log_to_json_line(audit_log: AuditLog) -> str:
+    json_str = json.dumps(audit_log)
+    json_str_with_newline = json_str + "\n"
+    return json_str_with_newline
+
+
+def append_to_log_file(
+    audit_log: AuditLog, log_file_path: Path = LOG_FILE_PATH
 ) -> None:
+    """
+    raises: LogAppendError if failed to append to log file
+    """
+    json_str_with_newline = convert_audit_log_to_json_line(audit_log)
     try:
         with log_file_path.open("a", encoding="utf-8") as file_handler:
-            file_handler.writelines(user_json_object)
+            file_handler.writelines(json_str_with_newline)
     except OSError as e:
         raise LogAppendError from e
 
 
 if __name__ == "__main__":
     mock_audit_log_data: AuditLog = {
-        "timestamp": dt.datetime.now(),
+        "timestamp": format_datetime_as_string(dt.datetime.now()),
         "name": "test_user",
         "target_word": "apple",
         "guess_word": "paper",
         "score": (0, 2, 0, 1, 1),
     }
-    write_log_file(mock_audit_log_data)
+    append_to_log_file(mock_audit_log_data)

@@ -1,6 +1,9 @@
 """Program entry point"""
 
 import random
+from typing import cast
+
+from audit_log import FiveIntTuple
 
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
@@ -8,7 +11,7 @@ TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
 NUMBER_OF_USER_GUESSES = 6
 
 
-def score_guess(user_guess, target_word):
+def score_guess(user_guess, target_word) -> FiveIntTuple:
     """Scores a Wordle guess.
     Args:
         user_guess (str): The user's guess.
@@ -28,7 +31,7 @@ def score_guess(user_guess, target_word):
 
     if user_guess == target_word:  # early return of correct guess
         score_list = [2] * 5
-        return tuple(score_list)
+        return cast(FiveIntTuple, tuple(score_list))
 
     # green tile pass (look for 2 vals)
     for i in range(5):
@@ -44,7 +47,7 @@ def score_guess(user_guess, target_word):
                 target_word_letter_freq[user_guess[i]] -= 1
 
     # print(target_word_letter_freq)  # debug
-    return tuple(score_list)
+    return cast(FiveIntTuple, tuple(score_list))
 
 
 def is_five_elements_long(collection):
@@ -165,7 +168,7 @@ def get_random_word_target_word(target_words_list):
 def game_loop(
     game_setup_param=None,
     mock_user_valid_guesses: list[str] | None = None,
-):
+) -> tuple[int, ...] | None:
     if game_setup_param is None:
         setup_data = game_setup()
     else:
@@ -175,6 +178,8 @@ def game_loop(
     past_valid_guesses_list: list[tuple[str, list[str]]] = []
     user_won_the_game = False
     guesses_count = 0
+    user_name: str | None = None
+    guess_result: tuple[int, ...] | None = None
 
     target_word = get_random_word_target_word(target_words_list)
 
@@ -211,6 +216,19 @@ def game_loop(
                     display_past_guesses(past_valid_guesses_list)
 
             guess_result = score_guess(user_guess, target_word)
+
+            if mock_user_valid_guesses is None:
+                from audit_log import create_audit_log
+
+                assert isinstance(user_name, str), "User name must be a string"
+
+                audit_log = create_audit_log(
+                    name=user_name,
+                    target_word=target_word,
+                    guess_word=user_guess,
+                    score=guess_result,
+                )
+                print(audit_log)
 
             if guess_result == (2, 2, 2, 2, 2):
                 display_guess = get_display_list(guess_result)

@@ -10,7 +10,7 @@ dependencies = []
 line-length = 79
 
 [tool.pyright]
-typeCheckingMode = "basic"
+typeCheckingMode = "standard"
 pythonVersion = "3.12"
 
 [tool.ruff.lint]
