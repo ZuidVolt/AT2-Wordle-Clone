@@ -1,0 +1,18 @@
+{
+  "audit": [
+    {
+      "timestamp": "2025-05-17 16:09:04",
+      "name": "test_user",
+      "target_word": "apple",
+      "guess_word": "paper",
+      "score": [0, 2, 0, 1, 1]
+    },
+    {
+      "timestamp": "2025-05-17 16:09:04",
+      "name": "test_user",
+      "target_word": "apple",
+      "guess_word": "paper",
+      "score": [0, 2, 0, 1, 1]
+    }
+  ]
+}
