@@ -1,5 +1,5 @@
 # ---- Unit Tests ----
-def test_score_guess() -> None:
+def test_score_guess():
     from wordle import score_guess
 
     test_case_1_mock_data = ("world", "world")

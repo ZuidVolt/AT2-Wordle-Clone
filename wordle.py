@@ -1,9 +1,12 @@
 """Program entry point"""
 
 import random
-from typing import cast
 
-from audit_log import FiveIntTuple
+from audit_log import (
+    LogAppendError,
+    append_to_log_file,
+    create_audit_log,
+)
 
 # --- constants ---
 VALID_WORDS_FILE_PATH = "./data/all_words.txt"  # unix path (hardcoded)
@@ -11,7 +14,7 @@ TARGET_WORDS__FILE_PATH = "./data/target_words.txt"  # unix path (hardcoded)
 NUMBER_OF_USER_GUESSES = 6
 
 
-def score_guess(user_guess, target_word) -> FiveIntTuple:
+def score_guess(user_guess, target_word):
     """Scores a Wordle guess.
     Args:
         user_guess (str): The user's guess.
@@ -31,7 +34,7 @@ def score_guess(user_guess, target_word) -> FiveIntTuple:
 
     if user_guess == target_word:  # early return of correct guess
         score_list = [2] * 5
-        return cast(FiveIntTuple, tuple(score_list))
+        return tuple(score_list)
 
     # green tile pass (look for 2 vals)
     for i in range(5):
@@ -47,7 +50,7 @@ def score_guess(user_guess, target_word) -> FiveIntTuple:
                 target_word_letter_freq[user_guess[i]] -= 1
 
     # print(target_word_letter_freq)  # debug
-    return cast(FiveIntTuple, tuple(score_list))
+    return tuple(score_list)
 
 
 def is_five_elements_long(collection):
@@ -129,7 +132,8 @@ def display_guess_after_win(past_valid_guesses_list, guesses_count):
 
 def user_input(valid_words_list):
     user_guess = input("Enter your guess: ").lower()
-    is_help = user_guess == "help"
+    help_str_set = frozenset({"help", "h", "?", "--help", "-h"})
+    is_help = user_guess in help_str_set
     is_valid = (
         user_guess in valid_words_list
     )  # don't need to worry about len case as all valid words are the same length
@@ -144,7 +148,39 @@ def get_player_name():
 
 
 def display_help_msg():
-    print("help msg")
+    help_msg = """\
+==== WORDLE HELP ====
+
+GOAL: Guess the 5-letter SECRET WORD in 6 tries
+
+FEEDBACK SYMBOLS:
+_ - Letter not in word
+0 - Letter in word, wrong position
+X - Letter in correct position
+
+EXAMPLE:
+Secret: CRANE, Guess: STARE
+>S T A R E
+>_ _ X 0 X
+• A and E: correct position (X)
+• R: exists but should move (0)
+• S and T: not in word (_)
+
+DUPLICATE LETTERS:
+Secret: APPLE, Guess: PAPER
+>P A P E R
+>0 0 X 0 _
+The secret has two Ps?
+First P: needs to move (0)
+Second P: correct (X)
+
+HOW TO PLAY:
+1. Enter a valid 5-letter word
+2. Analyze the feedback symbols
+3. Type "help" anytime to show this again
+
+Good luck finding the word!"""
+    print(help_msg)
 
 
 def game_setup(
@@ -168,7 +204,7 @@ def get_random_word_target_word(target_words_list):
 def game_loop(
     game_setup_param=None,
     mock_user_valid_guesses: list[str] | None = None,
-) -> tuple[int, ...] | None:
+):
     if game_setup_param is None:
         setup_data = game_setup()
     else:
@@ -184,12 +220,12 @@ def game_loop(
     target_word = get_random_word_target_word(target_words_list)
 
     if mock_user_valid_guesses is None:
-        print("Debug: Target word:", target_word)  # debug
         print("Welcome to Wordle!")
 
         user_name = get_player_name()
         print(f"You have {number_of_user_guesses} guesses.")
         display_help_msg()
+        print("Debug: Target word:", target_word)  # debug
 
     try:
         for turn_number in range(number_of_user_guesses):
@@ -218,8 +254,6 @@ def game_loop(
             guess_result = score_guess(user_guess, target_word)
 
             if mock_user_valid_guesses is None:
-                from audit_log import create_audit_log
-
                 assert isinstance(user_name, str), "User name must be a string"
 
                 audit_log = create_audit_log(
@@ -228,7 +262,12 @@ def game_loop(
                     guess_word=user_guess,
                     score=guess_result,
                 )
-                print(audit_log)
+                # print(audit_log)  # debug
+                try:
+                    append_to_log_file(audit_log)
+                except LogAppendError as e:  # noqa: F841
+                    # print(f"Error appending to log file: {e}")  # debug
+                    pass  # error is handled silently in this case as not appending to the log file is not critical to for the game to run
 
             if guess_result == (2, 2, 2, 2, 2):
                 display_guess = get_display_list(guess_result)
@@ -245,7 +284,7 @@ def game_loop(
         if mock_user_valid_guesses is None:
             ending_msg = f"Thank you for playing {user_name}"
             if user_won_the_game:
-                print("Congratulations! You won!")
+                print(f"Congratulations {user_name}! You won!")
                 print(ending_msg)
                 display_guess_after_win(past_valid_guesses_list, guesses_count)
             else:

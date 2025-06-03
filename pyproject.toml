@@ -12,6 +12,7 @@ line-length = 79
 [tool.pyright]
 typeCheckingMode = "standard"
 pythonVersion = "3.12"
+ignore = ["wordle.py"]
 
 [tool.ruff.lint]
 select = ["RUF"]

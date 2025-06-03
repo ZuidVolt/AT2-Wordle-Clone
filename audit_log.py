@@ -60,11 +60,16 @@ def append_to_log_file(
 
 
 if __name__ == "__main__":
-    mock_audit_log_data: AuditLog = {
-        "timestamp": format_datetime_as_string(dt.datetime.now()),
-        "name": "test_user",
-        "target_word": "apple",
-        "guess_word": "paper",
-        "score": (0, 2, 0, 1, 1),
-    }
-    append_to_log_file(mock_audit_log_data)
+    mock_user_data = (
+        "test_user",
+        "test_user",
+        "paper",
+        (0, 2, 0, 1, 1),
+    )
+    mock_audit_log = create_audit_log(
+        mock_user_data[0],
+        mock_user_data[1],
+        mock_user_data[2],
+        mock_user_data[3],
+    )
+    append_to_log_file(mock_audit_log)
