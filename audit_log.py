@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from typing import TypedDict
 
+# uses jsonl format which i learned about here https://jsonlines.org/examples/
 LOG_FILE_PATH = Path("audit.jsonl")
 
 
@@ -53,7 +54,9 @@ def append_to_log_file(
     """
     json_str_with_newline = convert_audit_log_to_json_line(audit_log)
     try:
-        with log_file_path.open("a", encoding="utf-8") as file_handler:
+        with (
+            log_file_path.open("a", encoding="utf-8") as file_handler
+        ):  # if the file does not exist, it will be created because i'm using a path object
             file_handler.writelines(json_str_with_newline)
     except OSError as e:
         raise LogAppendError from e  # re-raise to be handled by the caller
