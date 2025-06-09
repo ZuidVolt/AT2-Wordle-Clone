@@ -197,10 +197,6 @@ def game_setup(
     return valid_words_list, target_words_list, number_of_user_guesses
 
 
-def get_random_word_target_word(target_words_list):
-    return random.choice(target_words_list)
-
-
 def game_loop(
     game_setup_param=None,
     mock_user_valid_guesses: list[str] | None = None,
@@ -217,7 +213,7 @@ def game_loop(
     user_name: str | None = None
     guess_result: tuple[int, ...] | None = None
 
-    target_word = get_random_word_target_word(target_words_list)
+    target_word = random.choice(target_words_list)
 
     if mock_user_valid_guesses is None:
         print("Welcome to Wordle!")

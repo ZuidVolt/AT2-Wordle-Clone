@@ -56,7 +56,7 @@ def append_to_log_file(
         with log_file_path.open("a", encoding="utf-8") as file_handler:
             file_handler.writelines(json_str_with_newline)
     except OSError as e:
-        raise LogAppendError from e
+        raise LogAppendError from e  # re-raise to be handled by the caller
 
 
 if __name__ == "__main__":

@@ -17,4 +17,4 @@ env/
 # Miscellaneous
 .DS_Store
 *.log
-two_pass_score_logic.py
+audit.jsonl
